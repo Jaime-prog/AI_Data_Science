@@ -48,22 +48,22 @@ class LogisticRegression():
 def accuracy (y_pred, y_test):
         return np.sum(y_pred==y_test)/len(y_test)
     
-iterations=[]
-accuracy=[]
+list_iterations=[]
+accuracy_scores=[]
 
 regressor = LogisticRegression(lr=0.0001, n_iters=1000)
 regressor.fit(xtrain, ytrain)
 predictions = regressor.predict(xtest)
-iterations.append(1000)
+list_iterations.append(1000)
 
 print("Accuracy score of the model is: ", accuracy(predictions, ytest)*100, "%")
-accuracy.append(accuracy(predictions, ytest))
+accuracy_scores.append(accuracy(predictions, ytest))
 
 print(regressor.weights)
 print(regressor.bias)
 
-plt.scatter(iterations,accuracy,color="o")
-plt.plot(iterations,accuracy)
+plt.scatter(list_iterations, accuracy_scores, s=50, c='blue', marker='o')
+plt.plot(list_iterations,accuracy_scores)
 plt.xlabel("Number of iteration")
 plt.ylabel("Accuracy")
 
