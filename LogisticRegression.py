@@ -54,17 +54,27 @@ accuracy_scores=[]
 regressor = LogisticRegression(lr=0.0001, n_iters=1000)
 regressor.fit(xtrain, ytrain)
 predictions = regressor.predict(xtest)
-list_iterations.append(1000)
+
+list_iterations=[100,300,500, 700, 1000]
+
+for n_iters in list_iterations[:-1]:
+    regressor = LogisticRegression(lr=0.0001, n_iters=n_iters)
+    regressor.fit(xtrain, ytrain)
+    predictions = regressor.predict(xtest)
+    accuracy_scores.append(accuracy(predictions, ytest))
 
 print("Accuracy score of the model is: ", accuracy(predictions, ytest)*100, "%")
 accuracy_scores.append(accuracy(predictions, ytest))
 
 print(regressor.weights)
-print(regressor.bias)
+
+print(list_iterations)
+print(accuracy_scores)
 
 plt.scatter(list_iterations, accuracy_scores, s=50, c='blue', marker='o')
 plt.plot(list_iterations,accuracy_scores)
 plt.xlabel("Number of iteration")
 plt.ylabel("Accuracy")
+plt.show()
 
 
