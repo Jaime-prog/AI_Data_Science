@@ -3,8 +3,8 @@ from sklearn.model_selection import train_test_split
 from sklearn import datasets
 import matplotlib.pyplot as plt
 
-example = datasets.load_breast_cancer()
-x, y = example.data, example.target
+information = datasets.load_breast_cancer()
+x, y = information.data, information.target
 
 xtrain, xtest, ytrain, ytest = train_test_split(x, y, test_size=0.2, random_state=1234)
 
@@ -54,10 +54,10 @@ class LogisticRegression():
 def accuracy (y_pred, y_test):
         return np.sum(y_pred==y_test)/len(y_test)
     
-list_iterations = [100, 300, 500, 700, 1000]
+list_iterations = [100, 300, 500, 700, 1000,1500]
 accuracy_scores=[]
 
-regressor = LogisticRegression(alpha=0.0001, num_iters=1000)
+regressor = LogisticRegression(alpha=0.0001, num_iters=1500)
 regressor.fit(xtrain, ytrain)
 predictions = regressor.predict(xtest)
 
