@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 information = datasets.load_breast_cancer()
 x, y = information.data, information.target
 
-xtrain, xtest, ytrain, ytest = train_test_split(x, y, test_size=0.2, random_state=1234)
+xtrain, xtest, ytrain, ytest = train_test_split(x, y, test_size=0.2, random_state=12345)
 
 def sigmoid(x):
     return 1/(1+np.exp(-x))
@@ -25,7 +25,7 @@ class LogisticRegression():
         self.weights = np.zeros(n_features)
         self.bias = 0
 
-        for _ in range(self.num_iters):
+        for i in range(self.num_iters):
             linear_pred = np.dot(X, self.weights) + self.bias
             predictions = sigmoid(linear_pred)
             # we need to calculate the gradients
@@ -38,7 +38,7 @@ class LogisticRegression():
             self.bias = self.bias - self.alpha*db
 
             #If the number of iterations is in the list, we calculate the accuracy score and append it to the list
-            if _ in list_iterations:
+            if i in list_iterations:
                 accuracy_score = accuracy(self.predict(xtest), ytest)
                 accuracy_scores.append(accuracy_score)
 
