@@ -13,9 +13,9 @@ def sigmoid(x):
 
 class LogisticRegression():
   #we need to define the learning rate and the number of iterations
-    def __init__(self, lr=0.001, n_iters=1000):
-        self.lr = lr
-        self.n_iters = n_iters
+    def __init__(self, alpha=0.001, num_iters=1000):
+        self.alpha = alpha
+        self.num_iters = num_iters
         self.weights = None
         self.bias = None
         
@@ -25,7 +25,7 @@ class LogisticRegression():
         self.weights = np.zeros(n_features)
         self.bias = 0
 
-        for _ in range(self.n_iters):
+        for _ in range(self.num_iters):
             linear_pred = np.dot(X, self.weights) + self.bias
             predictions = sigmoid(linear_pred)
             # we need to calculate the gradients
@@ -34,11 +34,11 @@ class LogisticRegression():
             dw = (1/n_samples) * np.dot(X.T, (predictions - y))
             db = (1/n_samples) * np.sum(predictions-y)
 
-            self.weights = self.weights - self.lr*dw
-            self.bias = self.bias - self.lr*db
+            self.weights = self.weights - self.alpha*dw
+            self.bias = self.bias - self.alpha*db
 
-             # Check if the current iteration is in the desired iterations list
-            if _ + 1 in list_iterations:
+            #If the number of iterations is in the list, we calculate the accuracy score and append it to the list
+            if _ in list_iterations:
                 accuracy_score = accuracy(self.predict(xtest), ytest)
                 accuracy_scores.append(accuracy_score)
 
@@ -57,7 +57,7 @@ def accuracy (y_pred, y_test):
 list_iterations = [100, 300, 500, 700, 1000]
 accuracy_scores=[]
 
-regressor = LogisticRegression(lr=0.0001, n_iters=1000)
+regressor = LogisticRegression(alpha=0.0001, num_iters=1000)
 regressor.fit(xtrain, ytrain)
 predictions = regressor.predict(xtest)
 
@@ -70,7 +70,6 @@ print(regressor.weights)
 print(list_iterations)
 print(accuracy_scores)
 
-accuracy_scores.pop()
 plt.scatter(list_iterations, accuracy_scores, s=50, c='blue', marker='o')
 plt.plot(list_iterations,accuracy_scores)
 plt.xlabel("Number of iteration")
