@@ -1,6 +1,4 @@
 # AI_Data_Science
-:+1:
-***
 
 ## :arrow_right: Contenido del repositorio 
 El repositorio consta de los siguientes archivos y carpetas:
