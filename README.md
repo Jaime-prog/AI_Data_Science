@@ -18,7 +18,8 @@ Este proyecto demuestra la capacidad de implementar manualmente un algoritmo de 
 
 
 ## Uso de framework o biblioteca de aprendizaje máquina para la implementación de una solución.
-El documento que se debe correr es: > #aún por definir
+El documento que se debe correr es: 
+> Aún por definir
 
 
 
