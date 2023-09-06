@@ -4,9 +4,8 @@
 El repositorio consta de los siguientes archivos y carpetas:
 - `LogisticRegression.py`: Este archivo contiene la implementación del algoritmo de Regresión Logística desde cero en Python. Asimismo, dentro del código se encuentran varias funciones para evaluar su desempeño.
 
-### Instrucciones de Uso :ledger:
-- El documento que se debe correr es: [LogisticRegression.py](https://github.com/Jaime-prog/AI_Data_Science/blob/main/LogisticRegression.py)
-- [LogisticRegression.py](LogisticRegression.py)
+### :ledger: Instrucciones de Uso 
+- El documento que se debe correr es: [LogisticRegression.py](LogisticRegression.py)
 
 ### Dataset :information_source:
 El conjunto de datos utilizado en este proyecto es ***load_breast_cancer de scikit-learn***. Este conjunto de datos contiene características relacionadas con el diagnóstico de cáncer de mama, con el objetivo de predecir si un tumor es maligno o benigno.
