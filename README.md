@@ -4,6 +4,8 @@
 El repositorio consta de los siguientes archivos y carpetas:
 - `LogisticRegression.py`: Este archivo contiene la implementación del algoritmo de Regresión Logística desde cero en Python. Asimismo, dentro del código se encuentran varias funciones para evaluar su desempeño.
 
+### **Implementación de una técnica de aprendizaje máquina sin el uso de un framework.**
+
 ### :ledger: Instrucciones de Uso 
 - El archivo que se debe correr es: [LogisticRegression.py](LogisticRegression.py)
 
