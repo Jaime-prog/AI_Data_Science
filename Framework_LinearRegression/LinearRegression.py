@@ -109,11 +109,16 @@ lr.fit(x_train, y_train)
 print(lr.intercept_)
 print(lr.coef_)
 
+print("\n")
+
 #Visualizar la prediccion
 y_pred = lr.predict(x_test)
 df = pd.DataFrame({'Verdadero': y_test, 'Prediccion': y_pred})
+print("Predicciones:")
 print(df.head(25))
 
+print("\n")
+print("Metricas del desempeno del modelo")
 print("Puntaje R2: ", lr.score(x_train, y_train))
 #Medir el MSE del modelo 
 from sklearn.metrics import mean_squared_error
