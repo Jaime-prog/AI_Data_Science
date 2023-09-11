@@ -8,88 +8,62 @@ from sklearn.metrics import r2_score, mean_squared_error
 
 
 # Importar el dataset
-dataset = pd.read_csv('Framework_LinearRegression/placement.csv')
+dataset = pd.read_csv('Framework_LinearRegression/insurance.csv')
 
 # Visualizar el dataset
-dataset.head()
+print("Visualizar el dataset")
+print(dataset.head())
 
 # Visualizar la informacion del dataset
-dataset.info()
+print("Visualizar la informacion del dataset")
+print(dataset.info())
 
 # Visualizar la descripcion del dataset
-dataset.describe()
+print("Visualizar la descripcion del dataset")
+print(dataset.describe())
 
-# Visualizar la correlacion entre las variables
-sns.heatmap(dataset.corr(), annot=True)
+#Contar el numero de valores nulos
+print("Contar el numero de valores nulos")
+print(dataset.isnull().sum())
 
-plt.figure(figsize = (16,5))
-plt.subplot(1,2,1)
-sns.distplot(dataset['cgpa'])
-
-plt.subplot(1,2,2)
-sns.distplot(dataset['placement_exam_marks'])
-
+sns.set(style='whitegrid')
+f, ax = plt.subplots(1,1, figsize=(12, 8))
+ax = sns.histplot(dataset['charges'], kde = True, color = 'c')
+plt.title('Distribution of Charges')
 plt.show()
 
-print('Valor promedio del cgpa',dataset['cgpa'].mean())
-print('Desviación estandar de cgpa',dataset['cgpa'].std())
-print('Valor mínimo del cgpa',dataset['cgpa'].min())
-print('Valor máximo del cgpa',dataset['cgpa'].max())
-
-# Eliminar los valores que estan en los extremos
-# En este caso vamos a permitir los valores que esten dentro de 3 desviaciones estandar
-high_limit = dataset['cgpa'].mean() + 3*dataset['cgpa'].std()
-low_limit = dataset['cgpa'].mean() - 3*dataset['cgpa'].std()
-print("Limite mayor: ", high_limit)
-print("Limite menor: ", low_limit)
-
-print('Cantidad de valores antes de eliminar los valores extremos',dataset.shape)
-dataset = dataset[(dataset['cgpa'] < high_limit) & (dataset['cgpa'] > low_limit)]
-print('Cantidad de valores despues de eliminar los valores extremos',dataset.shape)
-
-#asignación de variables
-X = dataset.iloc[:,0:1]
-y = dataset.iloc[:,1]
-
-x_train, x_test, y_train, y_test = train_test_split(X,y,test_size = 0.2, random_state = 10)
-
-from sklearn.linear_model import LinearRegression
-lin_reg = LinearRegression()
-
-#Entrenamiento del modelo
-lin_reg.fit(x_train, y_train)
-
-#Predicción de los valores de test
-y_pred = lin_reg.predict(x_test)
-
-#Visualización de los resultados de entrenamiento
-plt.figure(figsize=(9,8))
-plt.scatter(x_train, y_train, color = 'blue')
-plt.plot(x_train, lin_reg.predict(x_train), color = 'red')
-plt.title('CGPA vs Placement Exam Marks (Training set)')
-plt.xlabel('CGPA')
-plt.ylabel('Placement Exam Marks')
-plt.show()
-
-#Evaluacion del desempeno del modelo en el conjunto de entrenamiento
-print('R2 score: ', r2_score(y_train, lin_reg.predict(x_train)))
-print('RMSE score: ', np.sqrt(mean_squared_error(y_train, lin_reg.predict(x_train))))
-
-#Visualización de los resultados de test
-plt.figure(figsize=(9,8))
-plt.scatter(x_test, y_test, color = 'blue')
-plt.plot(x_test, lin_reg.predict(x_test), color = 'red')
-plt.title('CGPA vs Placement Exam Marks (Test set)')
-plt.xlabel('CGPA')
-plt.ylabel('Placement Exam Marks')
-plt.show()
-
-#Evaluacion del desempeno del modelo en el conjunto de test
-print('R2 score: ', r2_score(y_test, lin_reg.predict(x_test)))
-print('RMSE score: ', np.sqrt(mean_squared_error(y_test, lin_reg.predict(x_test))))
+# Visualizar el precio del seguro medico por regiones
+charges = dataset['charges'].groupby(dataset.region).sum().sort_values(ascending = True)
+f, ax = plt.subplots(1, 1, figsize=(8, 6))
+ax = sns.barplot(charges.head(), charges.head().index, palette='Blues')
 
 
+#Visualizar el precio del seguro medico, pero tomando tambien en cuenta el sexo 
+f, ax = plt.subplots(1, 1, figsize=(12, 8))
+ax = sns.barplot(x='region', y='charges', hue='sex', data=dataset, palette='cool')
+
+#Visualizar el precio del seguro medico, pero tomando tambien en cuenta si fuma o no
+f, ax = plt.subplots(1,1, figsize=(12,8))
+ax = sns.barplot(x = 'region', y = 'charges',
+                 hue='smoker', data=dataset, palette='Reds_r')
 
 
+#Visualizr el precio del seguro medico, pero tomando tambien en cuenta el numero de hijos
+f, ax = plt.subplots(1, 1, figsize=(12, 8))
+ax = sns.barplot(x='region', y='charges', hue='children', data=dataset, palette='Set1')
 
 
+##Convertir las variables categoricas a numericas
+dataset[['sex', 'smoker', 'region']] = dataset[['sex', 'smoker', 'region']].astype('category')
+
+# Convertir las variables categoricas a numericas
+from sklearn.preprocessing import LabelEncoder
+label = LabelEncoder()
+label.fit(dataset.sex.drop_duplicates())
+dataset.sex = label.transform(dataset.sex)
+label.fit(dataset.smoker.drop_duplicates())
+dataset.smoker = label.transform(dataset.smoker)
+label.fit(dataset.region.drop_duplicates())
+dataset.region = label.transform(dataset.region)
+print("Tipo de datos del dataset despues de la conversion:")
+print(dataset.dtypes)
