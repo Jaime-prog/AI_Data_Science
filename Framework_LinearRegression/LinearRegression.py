@@ -35,22 +35,25 @@ plt.show()
 # Visualizar el precio del seguro medico por regiones
 charges = dataset['charges'].groupby(dataset.region).sum().sort_values(ascending = True)
 f, ax = plt.subplots(1, 1, figsize=(8, 6))
-ax = sns.barplot(charges.head(), charges.head().index, palette='Blues')
+ax = sns.barplot(x=charges.head(), y=charges.head().index, palette='Blues')
+plt.show()
 
 
 #Visualizar el precio del seguro medico, pero tomando tambien en cuenta el sexo 
 f, ax = plt.subplots(1, 1, figsize=(12, 8))
 ax = sns.barplot(x='region', y='charges', hue='sex', data=dataset, palette='cool')
-
+plt.show()
 #Visualizar el precio del seguro medico, pero tomando tambien en cuenta si fuma o no
 f, ax = plt.subplots(1,1, figsize=(12,8))
 ax = sns.barplot(x = 'region', y = 'charges',
                  hue='smoker', data=dataset, palette='Reds_r')
+plt.show()
 
 
 #Visualizr el precio del seguro medico, pero tomando tambien en cuenta el numero de hijos
 f, ax = plt.subplots(1, 1, figsize=(12, 8))
 ax = sns.barplot(x='region', y='charges', hue='children', data=dataset, palette='Set1')
+plt.show()
 
 
 ##Convertir las variables categoricas a numericas
@@ -67,3 +70,28 @@ label.fit(dataset.region.drop_duplicates())
 dataset.region = label.transform(dataset.region)
 print("Tipo de datos del dataset despues de la conversion:")
 print(dataset.dtypes)
+
+# Ver la correlacion entre las variables
+f, ax = plt.subplots(1, 1, figsize=(10, 10))
+ax = sns.heatmap(dataset.corr(), annot=True, cmap='cool')
+
+from sklearn.model_selection import train_test_split as holdout
+from sklearn.linear_model import LinearRegression
+x = dataset.drop(['charges'], axis = 1)
+y = dataset['charges']
+x_train, x_test, y_train, y_test = holdout(x, y, test_size=0.2, random_state=0)
+lr = LinearRegression()
+lr.fit(x_train, y_train)
+print(lr.intercept_)
+print(lr.coef_)
+print("Puntaje R2: ", lr.score(x_train, y_train))
+
+#Visualizar la prediccion
+y_pred = lr.predict(x_test)
+df = pd.DataFrame({'Verdadero': y_test, 'Prediccion': y_pred})
+print(df.head(10))
+
+#Evaluar el desempeno del modelo de regresion lineal
+
+#Measuring the MSE of the regression model
+
