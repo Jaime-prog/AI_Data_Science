@@ -2,6 +2,7 @@
 
 ### :arrow_right: Contenido del repositorio 
 El repositorio consta de los siguientes archivos y carpetas:
+
 _Carpetas_:
 - Framework_LinearRegression: Esta carpeta contiene todos los archivos relevantes hacia la implementación de regresión lineal
 - No_Framework_LogisticRegression: Esta carpeta contiene todos los archivos relevantes hacia la implementación de regresión logistica
