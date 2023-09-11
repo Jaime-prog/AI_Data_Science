@@ -90,17 +90,15 @@ y_pred = lr.predict(x_test)
 df = pd.DataFrame({'Verdadero': y_test, 'Prediccion': y_pred})
 print(df.head(10))
 
-
-#Medir el MSE del modelo 
-from sklearn.metrics import mean_squared_error
-y_pred = lr.predict(x_test)
-mse = mean_squared_error(y_test, y_pred)
-print("Mean Squared Error:", mse)
-
 #Asignamos las variables y entrenamos el modelo 
 x = dataset.drop(['charges'], axis = 1)
 y = dataset['charges']
-x_train, x_test, y_train, y_test = holdout(x, y, test_size=0.2, random_state=0)
+# Divide el conjunto de datos en entrenamiento (70%) y prueba (30%)
+x_train, x_test, y_train, y_test = holdout(x, y, test_size=0.3, random_state=0)
+
+# Divide el conjunto de prueba (30%) en prueba (15%) y validación (15%)
+x_test, x_val, y_test, y_val = holdout(x_test, y_test, test_size=0.5, random_state=0)
+
 lr = LinearRegression()
 lr.fit(x_train, y_train)
 print(lr.intercept_)
