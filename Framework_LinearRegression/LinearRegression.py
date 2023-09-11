@@ -77,6 +77,8 @@ ax = sns.heatmap(dataset.corr(), annot=True, cmap='cool')
 
 from sklearn.model_selection import train_test_split as holdout
 from sklearn.linear_model import LinearRegression
+
+#Asignamos las variables y entrenamos el modelo 
 x = dataset.drop(['charges'], axis = 1)
 y = dataset['charges']
 x_train, x_test, y_train, y_test = holdout(x, y, test_size=0.2, random_state=0)
@@ -91,7 +93,37 @@ y_pred = lr.predict(x_test)
 df = pd.DataFrame({'Verdadero': y_test, 'Prediccion': y_pred})
 print(df.head(10))
 
-#Evaluar el desempeno del modelo de regresion lineal
 
-#Measuring the MSE of the regression model
+#Medir el MSE del modelo 
+from sklearn.metrics import mean_squared_error
+y_pred = lr.predict(x_test)
+mse = mean_squared_error(y_test, y_pred)
+print("Mean Squared Error:", mse)
+
+#Asignamos las variables y entrenamos el modelo 
+x = dataset.drop(['charges'], axis = 1)
+y = dataset['charges']
+x_train, x_test, y_train, y_test = holdout(x, y, test_size=0.2, random_state=0)
+lr = LinearRegression()
+lr.fit(x_train, y_train)
+print(lr.intercept_)
+print(lr.coef_)
+
+#Visualizar la prediccion
+y_pred = lr.predict(x_test)
+df = pd.DataFrame({'Verdadero': y_test, 'Prediccion': y_pred})
+print(df.head(25))
+
+print("Puntaje R2: ", lr.score(x_train, y_train))
+#Medir el MSE del modelo 
+from sklearn.metrics import mean_squared_error
+y_pred = lr.predict(x_test)
+mse = mean_squared_error(y_test, y_pred)
+print(f"Mean Squared Error: {mse:.3f}")
+
+#Calular el MAE del modelo
+from sklearn.metrics import mean_absolute_error
+mae = mean_absolute_error(y_test, y_pred)
+print(f"Mean Absolute Error:{mae:.3f}")
+
 
