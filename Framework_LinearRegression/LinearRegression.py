@@ -106,17 +106,27 @@ print(lr.coef_)
 
 print("\n")
 
-#Visualizar la prediccion
+#Prediccion con el conjunto de prueba
 y_pred = lr.predict(x_test)
 df = pd.DataFrame({'Verdadero': y_test, 'Prediccion': y_pred})
-print("Predicciones:")
-print(df.head(25))
+print("Predicciones con el conjunto de test o prueba:")
+print(df.head(15))
+
+#Predicción con el conjunto de validación
+y_pred = lr.predict(x_val)
+df = pd.DataFrame({'Verdadero': y_val, 'Prediccion': y_pred})
+print("Predicciones con el conjunto de validación:")
+print(df.head(15))
 
 from sklearn.model_selection import learning_curve
-# Define una función para trazar la curva de aprendizaje
-def plot_learning_curve(estimator, X, y):
-    train_sizes, train_scores, test_scores = learning_curve(estimator, X, y, cv=5, 
-                                                            scoring='neg_mean_squared_error')
+from sklearn.metrics import mean_squared_error, mean_absolute_error
+
+# Define una función para trazar la curva de aprendizaje para train, test y validación
+def plot_learning_curve(estimator, X_train, y_train):
+    train_sizes, train_scores, test_scores = learning_curve(
+        estimator, X_train, y_train, cv=5, scoring='neg_mean_squared_error',
+        train_sizes=np.linspace(0.1, 1.0, 10), shuffle=True)
+    
     train_scores = -train_scores  
     test_scores = -test_scores    
 
@@ -131,7 +141,7 @@ def plot_learning_curve(estimator, X, y):
     plt.fill_between(train_sizes, test_scores_mean - test_scores_std, 
                      test_scores_mean + test_scores_std, alpha=0.1, color="b")
     plt.plot(train_sizes, train_scores_mean, 'o-', color="r", label="Entrenamiento")
-    plt.plot(train_sizes, test_scores_mean, 'o-', color="b", label="Validación")
+    plt.plot(train_sizes, test_scores_mean, 'o-', color="b", label="Prueba")
     plt.xlabel("Tamaño del Conjunto de Entrenamiento")
     plt.ylabel("Error Cuadrático Medio")
     plt.title("Curva de Aprendizaje")
@@ -141,19 +151,19 @@ def plot_learning_curve(estimator, X, y):
 # Llama a la función para trazar la curva de aprendizaje
 plot_learning_curve(lr, x_train, y_train)
 
+# Predicción con el conjunto de validación
+y_pred_val = lr.predict(x_val)
+df_val = pd.DataFrame({'Verdadero (Validación)': y_val, 'Predicción (Validación)': y_pred_val})
+print("Predicciones con el conjunto de validación:")
+print(df_val.head(15))
+
+# Métricas del desempeño del modelo en el conjunto de validación
+r2_val = lr.score(x_val, y_val)
+mse_val = mean_squared_error(y_val, y_pred_val)
+mae_val = mean_absolute_error(y_val, y_pred_val)
 
 print("\n")
-print("\tMetricas del desempeno del modelo")
-print("Puntaje R2: ", lr.score(x_train, y_train))
-#Medir el MSE del modelo 
-from sklearn.metrics import mean_squared_error
-y_pred = lr.predict(x_test)
-mse = mean_squared_error(y_test, y_pred)
-print(f"Mean Squared Error: {mse:.3f}")
-
-#Calular el MAE del modelo
-from sklearn.metrics import mean_absolute_error
-mae = mean_absolute_error(y_test, y_pred)
-print(f"Mean Absolute Error:{mae:.3f}")
-
-
+print("\tMétricas del desempeño del modelo en el conjunto de validación")
+print(f"Puntaje R2 (Validación): {r2_val:.3f}")
+print(f"Mean Squared Error (Validación): {mse_val:.3f}")
+print(f"Mean Absolute Error (Validación): {mae_val:.3f}")
