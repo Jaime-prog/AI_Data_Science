@@ -10,7 +10,7 @@ _Carpetas_:
  _Archivos_: 
 - `LogisticRegression.py`: Este archivo contiene la implementación del algoritmo de Regresión Logística desde cero en Python.
 - `LinearRegression.py`: Este archivo contiene la implementación del algoritmo de Regresión Lineal con el uso de un framework. Asimismo, dentro del código se encuentran algunas métricas para evaluar el modelo.
--  Análisis y Reporte sobre el desempeño del modelo de regresión lineal
+-  Reporte sobre el desempeño del modelo de regresión lineal
 ## **Implementación de una técnica de aprendizaje máquina sin el uso de un framework.**
 
 ### :ledger: Instrucciones de Uso 
