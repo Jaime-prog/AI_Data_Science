@@ -118,13 +118,12 @@ print("Predicciones:")
 print(df.head(25))
 
 from sklearn.model_selection import learning_curve
-
 # Define una función para trazar la curva de aprendizaje
 def plot_learning_curve(estimator, X, y):
     train_sizes, train_scores, test_scores = learning_curve(estimator, X, y, cv=5, 
                                                             scoring='neg_mean_squared_error')
-    train_scores = -train_scores  # Convertir a valores positivos
-    test_scores = -test_scores    # Convertir a valores positivos
+    train_scores = -train_scores  
+    test_scores = -test_scores    
 
     train_scores_mean = np.mean(train_scores, axis=1)
     train_scores_std = np.std(train_scores, axis=1)
@@ -146,7 +145,6 @@ def plot_learning_curve(estimator, X, y):
 
 # Llama a la función para trazar la curva de aprendizaje
 plot_learning_curve(lr, x_train, y_train)
-
 
 
 print("\n")
