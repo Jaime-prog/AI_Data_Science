@@ -154,13 +154,23 @@ plot_learning_curve(lr, x_train, y_train)
 # Predicción con el conjunto de validación
 y_pred_val = lr.predict(x_val)
 df_val = pd.DataFrame({'Verdadero (Validación)': y_val, 'Predicción (Validación)': y_pred_val})
-print("Predicciones con el conjunto de validación:")
-print(df_val.head(15))
+
+# Métricas del desempeño del modelo en el conjunto de test
+r2_test = lr.score(x_val, y_val)
+mse_test = mean_squared_error(y_val, y_pred)
+mae_test= mean_absolute_error(y_val, y_pred)
 
 # Métricas del desempeño del modelo en el conjunto de validación
 r2_val = lr.score(x_val, y_val)
 mse_val = mean_squared_error(y_val, y_pred_val)
 mae_val = mean_absolute_error(y_val, y_pred_val)
+
+
+print("\n")
+print("\tMétricas del desempeño del modelo en el conjunto de test o pruebas")
+print(f"Puntaje R2 (Validación): {r2_test:.3f}")
+print(f"Mean Squared Error (Validación): {mse_test:.3f}")
+print(f"Mean Absolute Error (Validación): {mae_test:.3f}")
 
 print("\n")
 print("\tMétricas del desempeño del modelo en el conjunto de validación")
