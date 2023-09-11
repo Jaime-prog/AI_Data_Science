@@ -76,4 +76,15 @@ plt.xlabel("Number of iteration")
 plt.ylabel("Accuracy")
 plt.show()
 
+# Matrix de confusion
+from sklearn.metrics import confusion_matrix
+cm = confusion_matrix(ytest, predictions)
+print(cm)
+
+#Evaluar el desempeño del modelo con la matriz de confusion
+from sklearn.metrics import classification_report
+print("-------------------------")
+print(classification_report(ytest, predictions))
+
+
 
