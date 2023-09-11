@@ -6,7 +6,8 @@ El repositorio consta de los siguientes archivos y carpetas:
 _Carpetas_:
 - Framework_LinearRegression: Esta carpeta contiene todos los archivos relevantes hacia la implementación de regresión lineal
 - No_Framework_LogisticRegression: Esta carpeta contiene todos los archivos relevantes hacia la implementación de regresión logistica
-- _Archivos_: 
+
+ _Archivos_: 
 - `LogisticRegression.py`: Este archivo contiene la implementación del algoritmo de Regresión Logística desde cero en Python.
 - `LinearRegression.py`: Este archivo contiene la implementación del algoritmo de Regresión Lineal con el uso de un framework. Asimismo, dentro del código se encuentran algunas métricas para evaluar el modelo.
 
