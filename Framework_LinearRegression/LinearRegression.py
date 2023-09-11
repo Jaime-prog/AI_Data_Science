@@ -47,5 +47,49 @@ print('Cantidad de valores antes de eliminar los valores extremos',dataset.shape
 dataset = dataset[(dataset['cgpa'] < high_limit) & (dataset['cgpa'] > low_limit)]
 print('Cantidad de valores despues de eliminar los valores extremos',dataset.shape)
 
+#asignación de variables
+X = dataset.iloc[:,0:1]
+y = dataset.iloc[:,1]
+
+x_train, x_test, y_train, y_test = train_test_split(X,y,test_size = 0.2, random_state = 10)
+
+from sklearn.linear_model import LinearRegression
+lin_reg = LinearRegression()
+
+#Entrenamiento del modelo
+lin_reg.fit(x_train, y_train)
+
+#Predicción de los valores de test
+y_pred = lin_reg.predict(x_test)
+
+#Visualización de los resultados de entrenamiento
+plt.figure(figsize=(9,8))
+plt.scatter(x_train, y_train, color = 'blue')
+plt.plot(x_train, lin_reg.predict(x_train), color = 'red')
+plt.title('CGPA vs Placement Exam Marks (Training set)')
+plt.xlabel('CGPA')
+plt.ylabel('Placement Exam Marks')
+plt.show()
+
+#Evaluacion del desempeno del modelo en el conjunto de entrenamiento
+print('R2 score: ', r2_score(y_train, lin_reg.predict(x_train)))
+print('RMSE score: ', np.sqrt(mean_squared_error(y_train, lin_reg.predict(x_train))))
+
+#Visualización de los resultados de test
+plt.figure(figsize=(9,8))
+plt.scatter(x_test, y_test, color = 'blue')
+plt.plot(x_test, lin_reg.predict(x_test), color = 'red')
+plt.title('CGPA vs Placement Exam Marks (Test set)')
+plt.xlabel('CGPA')
+plt.ylabel('Placement Exam Marks')
+plt.show()
+
+#Evaluacion del desempeno del modelo en el conjunto de test
+print('R2 score: ', r2_score(y_test, lin_reg.predict(x_test)))
+print('RMSE score: ', np.sqrt(mean_squared_error(y_test, lin_reg.predict(x_test))))
+
+
+
+
 
 
