@@ -117,8 +117,40 @@ df = pd.DataFrame({'Verdadero': y_test, 'Prediccion': y_pred})
 print("Predicciones:")
 print(df.head(25))
 
+from sklearn.model_selection import learning_curve
+
+# Define una función para trazar la curva de aprendizaje
+def plot_learning_curve(estimator, X, y):
+    train_sizes, train_scores, test_scores = learning_curve(estimator, X, y, cv=5, 
+                                                            scoring='neg_mean_squared_error')
+    train_scores = -train_scores  # Convertir a valores positivos
+    test_scores = -test_scores    # Convertir a valores positivos
+
+    train_scores_mean = np.mean(train_scores, axis=1)
+    train_scores_std = np.std(train_scores, axis=1)
+    test_scores_mean = np.mean(test_scores, axis=1)
+    test_scores_std = np.std(test_scores, axis=1)
+
+    plt.figure(figsize=(10, 6))
+    plt.fill_between(train_sizes, train_scores_mean - train_scores_std, 
+                     train_scores_mean + train_scores_std, alpha=0.1, color="r")
+    plt.fill_between(train_sizes, test_scores_mean - test_scores_std, 
+                     test_scores_mean + test_scores_std, alpha=0.1, color="b")
+    plt.plot(train_sizes, train_scores_mean, 'o-', color="r", label="Entrenamiento")
+    plt.plot(train_sizes, test_scores_mean, 'o-', color="b", label="Validación")
+    plt.xlabel("Tamaño del Conjunto de Entrenamiento")
+    plt.ylabel("Error Cuadrático Medio")
+    plt.title("Curva de Aprendizaje")
+    plt.legend(loc="best")
+    plt.show()
+
+# Llama a la función para trazar la curva de aprendizaje
+plot_learning_curve(lr, x_train, y_train)
+
+
+
 print("\n")
-print("Metricas del desempeno del modelo")
+print("\tMetricas del desempeno del modelo")
 print("Puntaje R2: ", lr.score(x_train, y_train))
 #Medir el MSE del modelo 
 from sklearn.metrics import mean_squared_error
