@@ -78,21 +78,6 @@ from sklearn.linear_model import LinearRegression
 #Asignamos las variables y entrenamos el modelo 
 x = dataset.drop(['charges'], axis = 1)
 y = dataset['charges']
-x_train, x_test, y_train, y_test = holdout(x, y, test_size=0.2, random_state=0)
-lr = LinearRegression()
-lr.fit(x_train, y_train)
-print(lr.intercept_)
-print(lr.coef_)
-print("Puntaje R2: ", lr.score(x_train, y_train))
-
-#Visualizar la prediccion
-y_pred = lr.predict(x_test)
-df = pd.DataFrame({'Verdadero': y_test, 'Prediccion': y_pred})
-print(df.head(10))
-
-#Asignamos las variables y entrenamos el modelo 
-x = dataset.drop(['charges'], axis = 1)
-y = dataset['charges']
 # Divide el conjunto de datos en entrenamiento (70%) y prueba (30%)
 x_train, x_test, y_train, y_test = holdout(x, y, test_size=0.3, random_state=0)
 
@@ -113,8 +98,8 @@ print("Predicciones con el conjunto de test o prueba:")
 print(df.head(15))
 
 #Predicción con el conjunto de validación
-y_pred = lr.predict(x_val)
-df = pd.DataFrame({'Verdadero': y_val, 'Prediccion': y_pred})
+y_pred_val = lr.predict(x_val)
+df = pd.DataFrame({'Verdadero': y_val, 'Prediccion': y_pred_val})
 print("Predicciones con el conjunto de validación:")
 print(df.head(15))
 
@@ -127,8 +112,8 @@ def plot_learning_curve(estimator, X_train, y_train):
         estimator, X_train, y_train, cv=5, scoring='neg_mean_squared_error',
         train_sizes=np.linspace(0.1, 1.0, 10), shuffle=True)
     
-    train_scores = -train_scores  
-    test_scores = -test_scores    
+    train_scores = -train_scores
+    test_scores = -test_scores
 
     train_scores_mean = np.mean(train_scores, axis=1)
     train_scores_std = np.std(train_scores, axis=1)
@@ -151,14 +136,10 @@ def plot_learning_curve(estimator, X_train, y_train):
 # Llama a la función para trazar la curva de aprendizaje
 plot_learning_curve(lr, x_train, y_train)
 
-# Predicción con el conjunto de validación
-y_pred_val = lr.predict(x_val)
-df_val = pd.DataFrame({'Verdadero (Validación)': y_val, 'Predicción (Validación)': y_pred_val})
-
 # Métricas del desempeño del modelo en el conjunto de test
-r2_test = lr.score(x_val, y_val)
-mse_test = mean_squared_error(y_val, y_pred)
-mae_test= mean_absolute_error(y_val, y_pred)
+r2_test = lr.score(x_test, y_test)
+mse_test = mean_squared_error(y_test, y_pred)
+mae_test= mean_absolute_error(y_test, y_pred)
 
 # Métricas del desempeño del modelo en el conjunto de validación
 r2_val = lr.score(x_val, y_val)
